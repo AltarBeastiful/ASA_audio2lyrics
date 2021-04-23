@@ -227,6 +227,7 @@ if [ $stage -le 7 ]; then
   # but if the last word does not have timing 
   # info, we keep looking for the first word 
   # having timing info.
+  sed -i "s/^('//; s/', /\t/; s/, /\t/; s/)//; s/'-1'\t'-1'/-1\t-1/" $working_dir/WORD_TIMINGS
   utils/int2sym.pl -f 1 $lang_dir/words.txt  $working_dir/WORD_TIMINGS > $working_dir/WORD_TIMINGS.words
   if [ $create_dir == "true" ]; then
 	echo "Creating $new_dir"

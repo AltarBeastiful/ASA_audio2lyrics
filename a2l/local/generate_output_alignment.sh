@@ -90,8 +90,7 @@ if [ $stage -le 1 ]; then
   if [ -f $data/segments ] && $use_segments; then
 
     for n in `seq $nj`; do gunzip -c $dir/ctm.$n.gz; done | \
-    local/convert_ctm.pl $data/segments | \
-      cut -d' ' -f1,3 > $dir/${rec_id}.lab || exit 1;
+    local/convert_ctm.pl $data/segments > $dir/${rec_id}.lab || exit 1;
   else
     for n in `seq $nj`; do 
       gunzip -c $dir/ctm.$n.gz > $dir/ctm.$n

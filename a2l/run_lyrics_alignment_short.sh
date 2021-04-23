@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Configuration
+conda activate ALTA
 
 nj=1
 stage=0
