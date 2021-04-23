@@ -24,7 +24,9 @@ RUN apt-get update && \
         gfortran \
         patch \
         ffmpeg \
-	vim && \
+        dos2unix \
+        less \
+    vim && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python2.7 /usr/bin/python 
@@ -57,7 +59,10 @@ RUN wget \
     && rm -f Miniconda3-latest-Linux-x86_64.sh 
 RUN conda --version
 
-COPY a2l /a2l
+RUN mkdir -p /a2l/local/demucs
+COPY a2l/environment.yml /a2l/
+COPY a2l/path.sh /a2l/
+COPY a2l/local/demucs/separate.py /a2l/local/demucs/
 
 # Installing Audio-2-lyrics alignment package and the rest of the dependencies
 RUN cd a2l/ && \
@@ -67,9 +72,10 @@ RUN cd a2l/ && \
     sed -i -- 's/path-to-your-kaldi-installation/${PATH_TO_YOUR_KALDI_INSTALLATION}/g' path.sh && \
     cp local/demucs/separate.py demucs/demucs/separate.py
 
-
+COPY a2l/. /a2l/
 WORKDIR /a2l
 
+SHELL ["/bin/sh", "-c", "source /root/miniconda3/etc/profile.d/conda.sh"]
 ENTRYPOINT ["/bin/bash"]
 
 
